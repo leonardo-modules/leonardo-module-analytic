@@ -31,10 +31,15 @@ class AnalyticsConfig(AppConfig, Default):
         # because it's activate JS in templates
         from constance import config
 
-        for k, values in six.iteritems(self.config):
-            if values[0] == getattr(config, k, None):
+        try:
+            for k, values in six.iteritems(self.config):
+                if values[0] == getattr(config, k, None):
 
-                setattr(django_settings, k, None)
+                    setattr(django_settings, k, None)
+        except:
+            # this may raise ProgrammingError when
+            # database does not ready
+            pass
 
 
 default = Default()
